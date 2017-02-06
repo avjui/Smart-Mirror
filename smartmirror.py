@@ -13,6 +13,7 @@ log = logger.Logger(__name__)
 # Inital loading plugin instance
 plugins = pluginmgr.get_plugins()
 
+FULLSCREEN = TRUE
 
 class FullscreenWindow:
     def __init__(self):
@@ -23,8 +24,11 @@ class FullscreenWindow:
         self.topFrame.pack(side=TOP, fill=BOTH, expand=YES)
         self.bottomFrame.pack(side=BOTTOM, fill=BOTH, expand=YES)
         self.state = False
-        self.tk.bind("<Return>", self.toggle_fullscreen)
-        self.tk.bind("<Escape>", self.end_fullscreen)
+        if not FULLSCREEN:
+            self.tk.bind("<Return>", self.toggle_fullscreen)
+            self.tk.bind("<Escape>", self.end_fullscreen)
+        else:
+            self.toggle_fullscreen()
 
         for key in plugins:
             self.plugin_raw = pluginmgr.get_plugins()[key]
